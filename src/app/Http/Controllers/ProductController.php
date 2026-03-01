@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Season;
 use Illuminate\Http\Request;
+use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
 {
@@ -20,7 +21,7 @@ class ProductController extends Controller
         return view('products.create', compact('seasons'));
     }
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         $product = Product::create([
             'name' => $request->name,
@@ -58,7 +59,7 @@ class ProductController extends Controller
         return view('products.edit', compact('product', 'seasons'));
     }
 
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
         $product->update([
             'name' => $request->name,

@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>商品詳細</h1>
-    <img src="{{ asset('storage/products/' . $product->image) }}" alt="{{ $product->name }}" width="100">
+    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" width="100">
     <p>{{ $product->name }}</p>
     <p>¥{{ $product->price }}</p>
     <p>{{ $product->seasons->pluck('name')->join('・') }}</p>
