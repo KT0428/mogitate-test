@@ -4,31 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>もぎたて</title>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body>
-    <h1>商品一覧</h1>
-    <form action="/products/search" method="GET">
-        <input type="text" name="keyword" value="{{ request('keyword') }}" placeholder="商品名で検索">
-        <select name="sort">
-            <option value="">価格で並び替え</option>
-            <option value="asc" {{ request('sort') === 'asc' ? 'selected' : '' }}>低い順に表示</option>
-            <option value="desc" {{ request('sort') === 'desc' ? 'selected' : '' }}>高い順に表示</option>
-        </select>
-        <button type="submit">検索</button>
-    </form>
-
-    <a href="/products/register">+商品を追加</a>
-
-    @foreach($products as $product)
-    <a href="/products/detail/{{ $product->id }}">
-        <div>
-            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" width="100">
-            <p>{{ $product->name }}</p>
-            <p>¥{{ $product->price }}</p>
+    <header>
+        <h1>mogitate</h1>
+    </header>
+    <main>
+        <div class="page-header">
+            <h2>商品一覧</h2>
+            <a href="/products/register" class="btn btn-primary">+商品を追加</a>
         </div>
-    </a>
-    @endforeach
-
-    {{ $products->links() }}
+        <div class="content-wrapper">
+            <aside class="sidebar">
+                <form action="/products/search" method="GET">
+                    <div class="sidebar-section">
+                        <input type="text" name="keyword" value="{{ request('keyword') }}" placeholder="商品名で検索">
+                        <button type="submit" class="btn-search">検索</button>
+                    </div>
+                    <div class="sidebar-section">
+                        <p class="sidebar-label">価格順で表示</p>
+                        <select name="sort" onchange="this.form.submit()">
+                            <option value="">価格を選択</option>
+                            <option value="asc" {{ request('sort') === 'asc' ? 'selected' : '' }}>低い順に表示</option>
+                            <option value="desc" {{ request('sort') === 'desc' ? 'selected' : '' }}>高い順に表示</option>
+                        </select>
+                    </div>
+                </form>
+            </aside>
+            <div class="product-area">
+                <div class="product-list">
+                    @foreach($products as $product)
+                    <a href="/products/detail/{{ $product->id }}" class="product-card">
+                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
+                        <div class="product-card-body">
+                            <p class="product-name">{{ $product->name }}</p>
+                            <p class="product-price">¥{{ $product->price }}</p>
+                        </div>
+                    </a>
+                    @endforeach
+                </div>
+                <div class="pagination-wrapper">
+                    {{ $products->links('vendor.pagination.tailwind') }}
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
 </html>
