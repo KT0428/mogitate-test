@@ -36,12 +36,12 @@ class ProductController extends Controller
     public function search(Request $request)
     {
         $query = Product::query();
-        if ($request->keyword) {
-            $query->where('name', 'like', '%' . $request->keyword . '%');
+        if ($request->search) {
+            $query->where('name', 'like', '%' . $request->search . '%');
         }
         if ($request->sort === 'asc') {
             $query->orderBy('price', 'asc');
-        } elseif ($request->sort === 'desc') {
+            } elseif ($request->sort === 'desc') {
             $query->orderBy('price', 'desc');
         }
         $products = $query->paginate(6);
